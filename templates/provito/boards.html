@@ -1,0 +1,50 @@
+{% extends "provito/index.html" %}
+
+{% block content %}
+<div class="container mt-3">
+    <div class="row w-100 mb-3">
+        {% for el in board %}
+        <div class="col-sm-8 mx-auto mb-5">
+            <div class="card-header bg-light text-start">
+                <div class="row row-cols-3">
+                    <div class="col">
+                        {{ el.category.name }}
+                    </div>
+                    <div class="col">
+                        {{ el.author }}
+                    </div>
+                    <div class="col text-end">
+                        {{ el.date_create }}
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ el.title }}</h5>
+<!--                    <img src="">-->
+                    <p>{{ el.content|safe }}</p>
+                    <p class="card-text">{{ el.text }}</p>
+                    {% if request.user == el.author %}
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'edit' el.id %}" class="btn btn-secondary btn-sm">Edit</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-footer bg-light text-muted">
+                <div class="row">
+                    <div class="col-6 text-start">
+                        {% if request.user.is_authenticated %}
+                            <a href="{% url 'detail' el.id %}" class="btn btn-secondary btn-sm">Add comment</a>
+                        {% endif %}
+                    </div>
+<!--                    <div class="col-6 text-end">-->
+<!--                        <p>Like</p>-->
+<!--                    </div>-->
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

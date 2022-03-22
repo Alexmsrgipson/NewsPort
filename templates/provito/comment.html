@@ -1,0 +1,39 @@
+{% extends 'provito/index.html '%}
+
+{% block content %}
+
+<form method="GET" class="text-light">
+    {% csrf_token %}
+    {{ filter.form }}
+    <input type="submit" value="Find">
+</form>
+{% if filter.qs|length %}
+    <div class="container">
+        {% for comment in filter.qs %}
+            <div class="row">
+                <div class="col">
+                    <p class="text-light text-start">{{ comment.author }}: {{ comment.text }}</p>
+                </div>
+                <div class="col-3 text-start">
+                    <p class="text-light">{{ comment.get_status_display }}</p>
+                </div>
+                <div class="col-1">
+                    {% if comment.status != 'accepted' %}
+                        <a href="{% url 'accept' comment.id %}"><button type="button" class="btn btn-outline-light me-2">Accept</button></a>
+                    {% endif %}
+                </div>
+                <div class="col-1">
+                    <a href="{% url 'delete' comment.id %}"><button type="button" class="btn btn-outline-light me-2">Delete</button></a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="text-light">Ничего не найдено</p>
+{% endif %}
+
+
+
+
+
+{% endblock content %}
