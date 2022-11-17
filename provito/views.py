@@ -137,3 +137,28 @@ def delete(request, *args, **kwargs):
         comment.save()
         return redirect('myboard', pk=request.user.id)
     raise Http404('Вам запрещен доступ на эту страницу')
+
+
+from django.shortcuts import render
+from rest_framework import viewsets
+from rest_framework import permissions
+from rest_framework.response import Response
+from provito.serializers import *
+from provito.models import *
+
+
+class BoardViewset(viewsets.ModelViewSet):
+   queryset = Board.objects.all()
+   serializer_class = BoardSerializer
+   def list(self, request, format=None):
+       return Response([])
+
+
+class CategoryViewset(viewsets.ModelViewSet):
+   queryset = Category.objects.all()
+   serializer_class = CategorySerializer
+
+
+class CommentViewest(viewsets.ModelViewSet):
+   queryset = Comment.objects.all()
+   serializer_class = CommentSerializer

@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,12 +50,17 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'django_filters',
     'provito.apps.ProvitoConfig',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
     # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
+    'django.middleware.locale.LocaleMiddleware',
+
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -315,4 +321,19 @@ LOGGING = {
             'propagate': False,
         }
     }
+}
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale')
+]
+
+
+REST_FRAMEWORK = {
+   'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+   'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+   'PAGE_SIZE': 10,
+   'DEFAULT_PERMISSION_CLASSES': [
+       'rest_framework.permissions.IsAuthenticated',
+   ]
+
 }
